@@ -8,7 +8,7 @@ import page from './page';
 
 @Controller()
 export default class Swagger extends Server.Controller {
-	static json = require('./swagger.json');
+	static json = {}; // require('./swagger.json');
 	static indexPage: string = '';
 	static source = {
 		'swagger-ui.css': true,

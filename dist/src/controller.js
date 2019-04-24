@@ -37,7 +37,7 @@ let Swagger = Swagger_1 = class Swagger extends http_ts_1.Server.Controller {
         return this.status(200).json(Swagger_1.json);
     }
 };
-Swagger.json = require('./swagger.json');
+Swagger.json = {}; // require('./swagger.json');
 Swagger.indexPage = '';
 Swagger.source = {
     'swagger-ui.css': true,

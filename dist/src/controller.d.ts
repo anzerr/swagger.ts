@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { Server } from 'http.ts';
 export default class Swagger extends Server.Controller {
-    static json: any;
+    static json: {};
     static indexPage: string;
     static source: {
         'swagger-ui.css': boolean;
