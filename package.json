@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "dist/index.js",
 	"scripts": {
-		"build": "npm run update && tsc -p ./",
+		"build": "tsc -p ./ && npm run update",
 		"clean": "find ./src -regex \".*.(js|map|d.ts)\" -type f -delete && rm -Rf ./dist",
 		"update": "ts-node src/update.ts",
 		"example": "ts-node example.ts"
