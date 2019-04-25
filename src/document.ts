@@ -1,6 +1,9 @@
 
 import * as fs from 'fs.promisify';
 import * as path from 'path';
+import {Server} from 'http.ts';
+import Swagger from './controller';
+import { METADATA } from './enum';
 
 export default class SwaggerDocument {
 
@@ -32,7 +35,7 @@ export default class SwaggerDocument {
 			tags: [],
 			schemes: ['https', 'http'],
 			paths: {
-				'/pet': {
+				/*'/pet': {
 					post: {
 						tags: ['pet'],
 						summary: 'Add a new pet to the store',
@@ -58,9 +61,38 @@ export default class SwaggerDocument {
 							petstore_auth: ['write:pets', 'read:pets']
 						}]
 					}
-				}
+				}*/
 			}
 		};
+	}
+
+	withServer(server: Server): SwaggerDocument {
+		const s: any = server, map = s.map;
+		this._document.host = `localhost:${s.port}`;
+		for (const i in map) {
+			for (const x in map[i]) {
+				if (map[i][x].class !== Swagger) {
+					const path = map[i][x].path, param = path.match(/\{\w+\}/g);
+					if (!this._document.paths[path]) {
+						this._document.paths[path] = {};
+					}
+					const meta = Reflect.getMetadata(METADATA.SWAGGER, map[i][x].instance[map[i][x].action]);
+					const doc = {description: '', responses: {200: {description: 'valid response'}}, parameters: []};
+					for (const i in param) {
+						doc.parameters.push({
+							name: param[i].substr(1, param[i].length - 2),
+							in: 'path',
+							required: true,
+							type: 'integer',
+							format: 'int64'
+						});
+					}
+
+					this._document.paths[path][i] = {...doc, ...meta};
+				}
+			}
+		}
+		return this;
 	}
 
 	package(json: any): SwaggerDocument {

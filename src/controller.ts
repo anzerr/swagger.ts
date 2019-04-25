@@ -5,19 +5,13 @@ import {Injectable, Inject, Module} from 'inject.ts';
 import * as fs from 'fs.promisify';
 import * as path from 'path';
 import page from './page';
+import { METADATA } from './enum';
 
 @Controller()
 export default class Swagger extends Server.Controller {
 	static json = {}; // require('./swagger.json');
 	static indexPage: string = '';
-	static source = {
-		'swagger-ui.css': true,
-		'favicon-32x32.png': true,
-		'favicon-64x64.png': true,
-		'swagger-ui-bundle.js': true,
-		'swagger-ui-standalone-preset.js': true,
-		'swagger-ui-standalone-preset.js.map': true
-	};
+	static source = METADATA.SOURCE;
 
 	@Get()
 	index() {

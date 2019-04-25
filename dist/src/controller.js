@@ -15,6 +15,7 @@ const http_ts_1 = require("http.ts");
 const fs = require("fs.promisify");
 const path = require("path");
 const page_1 = require("./page");
+const enum_1 = require("./enum");
 let Swagger = Swagger_1 = class Swagger extends http_ts_1.Server.Controller {
     index() {
         if (!Swagger_1.indexPage) {
@@ -39,14 +40,7 @@ let Swagger = Swagger_1 = class Swagger extends http_ts_1.Server.Controller {
 };
 Swagger.json = {}; // require('./swagger.json');
 Swagger.indexPage = '';
-Swagger.source = {
-    'swagger-ui.css': true,
-    'favicon-32x32.png': true,
-    'favicon-64x64.png': true,
-    'swagger-ui-bundle.js': true,
-    'swagger-ui-standalone-preset.js': true,
-    'swagger-ui-standalone-preset.js.map': true
-};
+Swagger.source = enum_1.METADATA.SOURCE;
 __decorate([
     http_ts_1.Get(),
     __metadata("design:type", Function),
