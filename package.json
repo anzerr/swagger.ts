@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "dist/index.js",
 	"scripts": {
-		"build": "tsc -p ./ && npm run update",
+		"build": "tsc -p ./ && npm run update && cp swagger dist" ,
 		"clean": "find ./src -regex \".*.(js|map|d.ts)\" -type f -delete && rm -Rf ./dist",
 		"update": "ts-node src/update.ts",
 		"example": "ts-node example.ts"
