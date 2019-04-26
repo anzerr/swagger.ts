@@ -1,27 +1,6 @@
 
 import { METADATA } from './enum';
-
-const merge = (a, b) => {
-	const o = {};
-	let empty = true;
-	if (typeof a === 'object' && !Array.isArray(a)) {
-		for (const i in a) {
-			o[i] = a[i];
-		}
-		empty = false;
-	}
-	if (typeof b === 'object' && !Array.isArray(b)) {
-		for (const i in b) {
-			if (typeof b[i] === 'object' && !Array.isArray(b[i]) && typeof a[i] === 'object' && !Array.isArray(a[i])) {
-				o[i] = merge(a[i], b[i]);
-			} else {
-				o[i] = b[i];
-			}
-		}
-		empty = false;
-	}
-	return empty ? b || a : o;
-};
+import merge from './util';
 
 /* tslint:disable:variable-name */
 export const add = (obj?: any) => {
@@ -32,4 +11,45 @@ export const add = (obj?: any) => {
 	};
 };
 
-export const responses = (status: number, desc: string) => add({responses: {[status]: {description: desc}}});
+export const responses = (status: number, desc: string) => add({ responses: { [status]: { description: desc } } });
+export const description = (desc: string) => add({ description: desc });
+export const headers = (key: string, meta: any) => add({ headers: { [key]: meta } });
+export const tag = (tag: string[] | string) => add({ tag: Array.isArray(tag) ? tag : [tag] });
+export const param = {
+	query: (name: string, description?: string, required?: boolean) => add({
+		parameters: [{
+			name,
+			description,
+			in: 'query',
+			required: required || false,
+			type: 'string'
+		}]
+	}),
+	header: (name: string, description?: string, required?: boolean) => add({
+		parameters: [{
+			name,
+			description,
+			in: 'header',
+			required: required || false,
+			type: 'string'
+		}]
+	}),
+	formData: (name: string, description?: string, required?: boolean) => add({
+		parameters: [{
+			name,
+			description,
+			in: 'formData',
+			required: required || false,
+			type: 'string'
+		}]
+	}),
+	body: (name: string, schema: any, description?: string, required?: boolean) => add({
+		parameters: [{
+			name,
+			description,
+			schema,
+			in: 'body',
+			required: required || false,
+		}]
+	})
+};

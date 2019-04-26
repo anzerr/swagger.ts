@@ -3,6 +3,10 @@ export default class SwaggerDocument {
     private _document;
     constructor();
     withServer(server: Server): SwaggerDocument;
-    package(json: any): SwaggerDocument;
+    setTitle(title: string): SwaggerDocument;
+    setDescription(description: string): SwaggerDocument;
+    setVersion(version: string): SwaggerDocument;
+    addTag(tag: string): SwaggerDocument;
+    build(): any;
     toJson(): any;
 }

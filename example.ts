@@ -8,6 +8,8 @@ import * as Meta from './src/meta';
 @Controller('user')
 class Test extends Server.Controller {
 	@Get()
+	@Meta.param.query('name')
+	@Meta.tag('get')
 	list() {
 		return `cat_${this.query.name || ''}`;
 	}
@@ -20,6 +22,8 @@ class Test extends Server.Controller {
 	}
 
 	@Get('error')
+	@Meta.description('endpoint to throw errors')
+	@Meta.responses(500, 'valid response')
 	error() {
 		throw new Error('cat');
 	}
@@ -27,10 +31,12 @@ class Test extends Server.Controller {
 	@Get(':id')
 	@Meta.responses(200, 'valid test')
 	@Meta.responses(405, 'invalid params')
+	@Meta.description('get users')
+	@Meta.param.query('version', 'versionRef')
 	getUser() {
 		return {
 			id: this.param.id,
-			type: 'getUser'
+			type: 'getUser ' + this.query.version
 		};
 	}
 
