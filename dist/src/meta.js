@@ -42,11 +42,11 @@ exports.param = {
                 type: 'string'
             }]
     }),
-    body: (name, schema, description, required) => exports.add({
+    body: (schema, description, name, required) => exports.add({
         parameters: [{
-                name,
                 description,
                 schema,
+                name: name || 'body',
                 in: 'body',
                 required: required || false,
             }]

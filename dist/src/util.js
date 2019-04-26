@@ -15,7 +15,6 @@ const merge = (a, b) => {
                 o[i] = merge(a[i], b[i]);
             }
             else {
-                console.log(a, b);
                 if (Array.isArray(a[i]) && Array.isArray(b[i])) {
                     o[i] = a[i].concat(b[i]);
                 }
@@ -27,7 +26,6 @@ const merge = (a, b) => {
         empty = false;
     }
     if (Array.isArray(a) && Array.isArray(b)) {
-        console.log(a, b);
         return b.concat(a);
     }
     return empty ? b || a : o;

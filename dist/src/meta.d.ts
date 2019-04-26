@@ -7,5 +7,5 @@ export declare const param: {
     query: (name: string, description?: string, required?: boolean) => (target: any, propertyKey: string, descriptor: PropertyDescriptor) => PropertyDescriptor;
     header: (name: string, description?: string, required?: boolean) => (target: any, propertyKey: string, descriptor: PropertyDescriptor) => PropertyDescriptor;
     formData: (name: string, description?: string, required?: boolean) => (target: any, propertyKey: string, descriptor: PropertyDescriptor) => PropertyDescriptor;
-    body: (name: string, schema: any, description?: string, required?: boolean) => (target: any, propertyKey: string, descriptor: PropertyDescriptor) => PropertyDescriptor;
+    body: (schema: any, description?: string, name?: string, required?: boolean) => (target: any, propertyKey: string, descriptor: PropertyDescriptor) => PropertyDescriptor;
 };

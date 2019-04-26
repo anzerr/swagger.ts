@@ -43,11 +43,11 @@ export const param = {
 			type: 'string'
 		}]
 	}),
-	body: (name: string, schema: any, description?: string, required?: boolean) => add({
+	body: (schema: any, description?: string, name?: string, required?: boolean) => add({
 		parameters: [{
-			name,
 			description,
 			schema,
+			name: name || 'body',
 			in: 'body',
 			required: required || false,
 		}]

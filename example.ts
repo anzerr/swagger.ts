@@ -15,6 +15,14 @@ class Test extends Server.Controller {
 	}
 
 	@Post()
+	@Meta.param.body({
+		type: 'object',
+		required: ['shard', 'key'],
+		properties: {
+			shard: {type: 'string'},
+			key: {type: 'string'}
+		}
+	})
 	create() {
 		return this.data().then((res) => {
 			return res;
