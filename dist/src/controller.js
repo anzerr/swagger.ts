@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 var Swagger_1;
+Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const http_ts_1 = require("http.ts");
 const fs = require("fs.promisify");
