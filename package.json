@@ -1,10 +1,6 @@
 {
 	"name": "swagger.ts",
-<<<<<<< HEAD
-	"version": "1.0.2",
-=======
 	"version": "1.0.3",
->>>>>>> 97abfd14ef7eb72b20ee003d592bc086ca4b3023
 	"description": "",
 	"main": "dist/index.js",
 	"scripts": {
