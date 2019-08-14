@@ -54,12 +54,22 @@ class SwaggerDocument {
                         parameters: []
                     };
                     for (const i in param) {
-                        doc.parameters.push({
-                            name: param[i].substr(1, param[i].length - 2),
-                            in: 'path',
-                            required: true,
-                            type: 'string'
-                        });
+                        const name = param[i].substr(1, param[i].length - 2);
+                        let found = false;
+                        for (const x in doc.parameters) {
+                            if (doc.parameters[x].name === name) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (found) {
+                            doc.parameters.push({
+                                name,
+                                in: 'path',
+                                required: true,
+                                type: 'string'
+                            });
+                        }
                     }
                     this._document.paths[path][i] = util_1.default(doc, meta);
                 }
