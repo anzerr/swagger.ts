@@ -46,10 +46,22 @@ exports.param = {
         parameters: [{
                 description,
                 schema,
-                name: name || 'body',
                 in: 'body',
+                name: name || 'body',
                 required: required || false,
             }]
-    })
+    }),
+    path: (name, description, example) => exports.add({
+        parameters: [{
+                name,
+                description,
+                in: 'path',
+                required: true,
+                schema: {
+                    type: 'string',
+                    example: example || ''
+                }
+            }]
+    }),
 };
 //# sourceMappingURL=meta.js.map
