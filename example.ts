@@ -1,10 +1,24 @@
 
 import 'reflect-metadata';
 import {Server, Controller, Get, Post} from 'http.ts';
+import {FormPipe} from 'form.pipe';
 import * as fs from 'fs';
+import * as path from 'path';
 import Swagger from './src/controller';
 import SwaggerDocument from './src/document';
 import * as Meta from './src/meta';
+import {Writable} from 'stream';
+
+const write = (): Writable => {
+	return new Writable({
+		objectMode: true,
+		write: function(file, encoding, callback) {
+			file.stream.pipe(fs.createWriteStream(path.join(__dirname, file.filename))).on('close', () => {
+				callback();
+			});
+		}
+	});
+};
 
 @Controller('user')
 class Test extends Server.Controller {
@@ -64,9 +78,8 @@ class Test extends Server.Controller {
 	@Meta.param.formData('afile', 'file to upload', {type: 'file'})
 	@Meta.param.formData('bfile', 'file to upload', {type: 'file'})
 	import(): any {
-		return this.data().then((res) => {
-			fs.writeFileSync('out.dump', res);
-			return this.status(200).send('4');
+		this.pipe(new FormPipe()).pipe(write()).once('finish', () => {
+			this.status(200).send('done');
 		});
 	}
 
@@ -76,6 +89,10 @@ const document = new SwaggerDocument();
 
 const s = new Server(3000)
 	.withController([Swagger, Test]);
+
+s.on('error', (err) => {
+	console.log('request error', err);
+});
 
 s.start().then(() => {
 	Swagger.json = document.withServer(s).toJson();

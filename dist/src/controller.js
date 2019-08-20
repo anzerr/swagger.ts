@@ -12,7 +12,7 @@ var Swagger_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const http_ts_1 = require("http.ts");
-const fs = require("fs.promisify");
+const fs = require("fs");
 const path = require("path");
 const page_1 = require("./page");
 const enum_1 = require("./enum");
