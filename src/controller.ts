@@ -1,20 +1,20 @@
 
 import 'reflect-metadata';
-import {Server, Controller, Get, Post} from 'http.ts';
-import {Injectable, Inject, Module} from 'inject.ts';
+import {Server, Controller, Get} from 'http.ts';
 import * as fs from 'fs.promisify';
 import * as path from 'path';
 import page from './page';
-import { METADATA } from './enum';
+import {METADATA} from './enum';
 
 @Controller()
 export default class Swagger extends Server.Controller {
+
 	static json = {}; // require('./swagger.json');
-	static indexPage: string = '';
+	static indexPage = '';
 	static source = METADATA.SOURCE;
 
 	@Get()
-	index() {
+	index(): any {
 		if (!Swagger.indexPage) {
 			Swagger.indexPage = page('./swagger', {url: './swagger.json'});
 		}
@@ -24,7 +24,7 @@ export default class Swagger extends Server.Controller {
 	}
 
 	@Get('swagger/:file')
-	css() {
+	css(): any {
 		const file = this.param.file;
 		if (Swagger.source[file]) {
 			return this.status(200).set({
@@ -35,7 +35,7 @@ export default class Swagger extends Server.Controller {
 	}
 
 	@Get('swagger.json')
-	json() {
+	json(): any {
 		return this.status(200).json(Swagger.json);
 	}
 

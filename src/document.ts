@@ -3,7 +3,7 @@ import * as fs from 'fs.promisify';
 import * as path from 'path';
 import {Server} from 'http.ts';
 import Swagger from './controller';
-import { METADATA } from './enum';
+import {METADATA} from './enum';
 import merge from './util';
 
 export default class SwaggerDocument {
@@ -14,6 +14,7 @@ export default class SwaggerDocument {
 		let base = process.cwd(), json: any = {};
 		for (let i = 0; i < 5; i++) {
 			try {
+				// eslint-disable-line no-sync
 				json = JSON.parse(fs.readFileSync(path.join(base, 'package.json')).toString());
 				break;
 			} catch (e) {
@@ -25,8 +26,8 @@ export default class SwaggerDocument {
 			swagger: '2.0',
 			info: {
 				title: json.name || 'mising',
-				description: json.description  || '',
-				version: json.version  || 'mising',
+				description: json.description || '',
+				version: json.version || 'mising',
 				license: {
 					name: (license ? json.license : '') || 'Apache 2.0',
 					url: license ? json.homepage.replace('#readme', '/blob/master/LICENSE') : 'http://www.apache.org/licenses/LICENSE-2.0.html'
@@ -45,9 +46,9 @@ export default class SwaggerDocument {
 		for (const i in map) {
 			for (const x in map[i]) {
 				if (map[i][x].class !== Swagger) {
-					const path = map[i][x].path, param = path.match(/\{\w+\}/g);
-					if (!this._document.paths[path]) {
-						this._document.paths[path] = {};
+					const p = map[i][x].path, param = p.match(/\{\w+\}/g);
+					if (!this._document.paths[p]) {
+						this._document.paths[p] = {};
 					}
 					const meta = Reflect.getMetadata(METADATA.SWAGGER, map[i][x].instance[map[i][x].action]);
 					const doc = {
@@ -57,18 +58,18 @@ export default class SwaggerDocument {
 						responses: {200: {description: 'valid response'}},
 						parameters: []
 					};
-					for (const i in param) {
-						const name = param[i].substr(1, param[i].length - 2);
+					for (const v in param) {
+						const name = param[v].substr(1, param[v].length - 2);
 						let found = false;
-						for (const x in doc.parameters) {
-							if (doc.parameters[x].name === name) {
+						for (const k in doc.parameters) {
+							if (doc.parameters[k].name === name) {
 								found = true;
 								break;
 							}
 						}
 						if (found) {
 							doc.parameters.push({
-								name,
+								name: name,
 								in: 'path',
 								required: true,
 								type: 'string'
@@ -76,7 +77,7 @@ export default class SwaggerDocument {
 						}
 					}
 
-					this._document.paths[path][i] = merge(doc, meta);
+					this._document.paths[p][i] = merge(doc, meta);
 				}
 			}
 		}

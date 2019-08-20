@@ -1,8 +1,7 @@
 
-import { METADATA } from './enum';
+import {METADATA} from './enum';
 import merge from './util';
 
-/* tslint:disable:variable-name */
 export const add = (obj?: any) => {
 	return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
 		const o = Reflect.getMetadata(METADATA.SWAGGER, descriptor.value) || {};
@@ -11,57 +10,63 @@ export const add = (obj?: any) => {
 	};
 };
 
-export const responses = (status: number, desc: string) => add({ responses: { [status]: { description: desc } } });
-export const description = (desc: string) => add({ description: desc });
-export const headers = (key: string, meta: any) => add({ headers: { [key]: meta } });
-export const tag = (tag: string[] | string) => add({ tag: Array.isArray(tag) ? tag : [tag] });
+export const responses = (status: number, desc: string): any => add({responses: {[status]: {description: desc}}});
+export const description = (desc: string): any => add({description: desc});
+export const headers = (key: string, meta: any): any => add({headers: {[key]: meta}});
+export const tag = (t: string[] | string): any => add({tag: Array.isArray(t) ? t : [t]});
+
 export const param = {
-	query: (name: string, description?: string, required?: boolean) => add({
+	query: (name: string, desc?: string, option?: any) => add({
 		parameters: [{
-			name,
-			description,
+			name: name,
+			description: desc,
 			in: 'query',
-			required: required || false,
-			type: 'string'
+			required: false,
+			type: 'string',
+			...(option || {})
 		}]
 	}),
-	header: (name: string, description?: string, required?: boolean) => add({
+	header: (name: string, desc?: string, option?: any) => add({
 		parameters: [{
-			name,
-			description,
+			name: name,
+			description: desc,
 			in: 'header',
-			required: required || false,
-			type: 'string'
+			required: false,
+			type: 'string',
+			...(option || {})
 		}]
 	}),
-	formData: (name: string, description?: string, required?: boolean) => add({
+	formData: (name: string, desc?: string, option?: any) => add({
 		parameters: [{
-			name,
-			description,
+			name: name,
+			description: desc,
 			in: 'formData',
-			required: required || false,
-			type: 'string'
+			required: false,
+			type: 'string',
+			...(option || {})
 		}]
 	}),
-	body: (schema: any, description?: string, name?: string, required?: boolean) => add({
+	body: (schema: any, desc?: string, name?: string, option?: any) => add({
 		parameters: [{
-			description,
-			schema,
+			description: desc,
+			schema: schema,
 			in: 'body',
+			required: false,
 			name: name || 'body',
-			required: required || false,
+			...(option || {})
 		}]
 	}),
-	path: (name: string, description?: string, example?: string) => add({
+	path: (name: string, desc?: string, example?: string, option?: any) => add({
 		parameters: [{
-			name,
-			description,
+			name: name,
+			description: desc,
 			in: 'path',
 			required: true,
 			schema: {
 				type: 'string',
 				example: example || ''
-			}
+			},
+			...(option || {})
 		}]
 	}),
 };

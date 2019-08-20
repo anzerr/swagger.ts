@@ -45,19 +45,19 @@ __decorate([
     http_ts_1.Get(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Object)
 ], Swagger.prototype, "index", null);
 __decorate([
     http_ts_1.Get('swagger/:file'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Object)
 ], Swagger.prototype, "css", null);
 __decorate([
     http_ts_1.Get('swagger.json'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Object)
 ], Swagger.prototype, "json", null);
 Swagger = Swagger_1 = __decorate([
     http_ts_1.Controller()

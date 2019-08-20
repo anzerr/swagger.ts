@@ -1,11 +1,10 @@
 
 import * as fs from 'fs.promisify';
-import * as mkdirp from 'fs.mkdirp';
 import * as remove from 'fs.remove';
 import {spawn} from 'child_process';
 import * as path from 'path';
 
-const run = (cmd, o) => {
+const run = (cmd, o): Promise<void> => {
 	return new Promise((resolve) => {
 		const ls = spawn('sh', ['-c', cmd], o);
 		ls.stdout.pipe(process.stdout);

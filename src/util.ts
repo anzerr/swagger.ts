@@ -1,5 +1,5 @@
 
-const merge = (a, b) => {
+const merge = (a: any, b: any): any => {
 	const o = {};
 	let empty = true;
 	if (typeof a === 'object' && !Array.isArray(a)) {

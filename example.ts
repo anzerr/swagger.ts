@@ -1,16 +1,18 @@
 
 import 'reflect-metadata';
 import {Server, Controller, Get, Post} from 'http.ts';
+import * as fs from 'fs';
 import Swagger from './src/controller';
 import SwaggerDocument from './src/document';
 import * as Meta from './src/meta';
 
 @Controller('user')
 class Test extends Server.Controller {
+
 	@Get()
 	@Meta.param.query('name')
 	@Meta.tag('get')
-	list() {
+	list(): string {
 		return `cat_${this.query.name || ''}`;
 	}
 
@@ -23,7 +25,7 @@ class Test extends Server.Controller {
 			key: {type: 'string'}
 		}
 	})
-	create() {
+	create(): Promise<{shard: string; key: string}[]> {
 		return this.data().then((res) => {
 			return res;
 		});
@@ -32,7 +34,7 @@ class Test extends Server.Controller {
 	@Get('error')
 	@Meta.description('endpoint to throw errors')
 	@Meta.responses(500, 'valid response')
-	error() {
+	error(): void {
 		throw new Error('cat');
 	}
 
@@ -41,7 +43,7 @@ class Test extends Server.Controller {
 	@Meta.responses(405, 'invalid params')
 	@Meta.description('get users')
 	@Meta.param.query('version', 'versionRef')
-	getUser() {
+	getUser(): {id: string; type: string} {
 		return {
 			id: this.param.id,
 			type: 'getUser ' + this.query.version
@@ -49,13 +51,23 @@ class Test extends Server.Controller {
 	}
 
 	@Get(':id/json')
-	getFriendsJson() {
+	getFriendsJson(): any {
 		this.status(200).json([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 	}
 
 	@Get(':id/friends')
-	getFriends() {
+	getFriends(): any {
 		this.status(200).send('3');
+	}
+
+	@Post('import')
+	@Meta.param.formData('afile', 'file to upload', {type: 'file'})
+	@Meta.param.formData('bfile', 'file to upload', {type: 'file'})
+	import(): any {
+		return this.data().then((res) => {
+			fs.writeFileSync('out.dump', res);
+			return this.status(200).send('4');
+		});
 	}
 
 }

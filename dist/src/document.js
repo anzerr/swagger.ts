@@ -10,6 +10,7 @@ class SwaggerDocument {
         let base = process.cwd(), json = {};
         for (let i = 0; i < 5; i++) {
             try {
+                // eslint-disable-line no-sync
                 json = JSON.parse(fs.readFileSync(path.join(base, 'package.json')).toString());
                 break;
             }
@@ -41,9 +42,9 @@ class SwaggerDocument {
         for (const i in map) {
             for (const x in map[i]) {
                 if (map[i][x].class !== controller_1.default) {
-                    const path = map[i][x].path, param = path.match(/\{\w+\}/g);
-                    if (!this._document.paths[path]) {
-                        this._document.paths[path] = {};
+                    const p = map[i][x].path, param = p.match(/\{\w+\}/g);
+                    if (!this._document.paths[p]) {
+                        this._document.paths[p] = {};
                     }
                     const meta = Reflect.getMetadata(enum_1.METADATA.SWAGGER, map[i][x].instance[map[i][x].action]);
                     const doc = {
@@ -53,25 +54,25 @@ class SwaggerDocument {
                         responses: { 200: { description: 'valid response' } },
                         parameters: []
                     };
-                    for (const i in param) {
-                        const name = param[i].substr(1, param[i].length - 2);
+                    for (const v in param) {
+                        const name = param[v].substr(1, param[v].length - 2);
                         let found = false;
-                        for (const x in doc.parameters) {
-                            if (doc.parameters[x].name === name) {
+                        for (const k in doc.parameters) {
+                            if (doc.parameters[k].name === name) {
                                 found = true;
                                 break;
                             }
                         }
                         if (found) {
                             doc.parameters.push({
-                                name,
+                                name: name,
                                 in: 'path',
                                 required: true,
                                 type: 'string'
                             });
                         }
                     }
-                    this._document.paths[path][i] = util_1.default(doc, meta);
+                    this._document.paths[p][i] = util_1.default(doc, meta);
                 }
             }
         }
