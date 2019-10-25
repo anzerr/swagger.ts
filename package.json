@@ -4,10 +4,12 @@
 	"description": "",
 	"main": "dist/index.js",
 	"scripts": {
-		"build": "tsc -p ./ && npm run update && cp -r ./swagger ./dist",
-		"clean": "find ./src -regex \".*.(js|map|d.ts)\" -type f -delete && rm -Rf ./dist",
+		"linter": "eslint index.js",
+		"build": "tsc -p ./ && cp -r ./swagger ./dist",
+		"clean": "rm -Rf ./dist",
 		"update": "ts-node src/update.ts",
-		"example": "ts-node example.ts"
+		"example": "ts-node example.ts",
+		"test": "echo 'done'"
 	},
 	"keywords": [],
 	"author": "anzerr",
@@ -23,7 +25,8 @@
 	},
 	"dependencies": {
 		"http.ts": "git+https://git@github.com/anzerr/http.ts.git",
-		"reflect-metadata": "^0.1.13"
+		"reflect-metadata": "^0.1.13",
+		"type.util": "git+https://github.com/anzerr/type.util.git"
 	},
 	"eslintConfig": {
 		"extends": "eslint-config-typescript"

@@ -10,8 +10,7 @@ class SwaggerDocument {
         let base = process.cwd(), json = {};
         for (let i = 0; i < 5; i++) {
             try {
-                // eslint-disable-line no-sync
-                json = JSON.parse(fs.readFileSync(path.join(base, 'package.json')).toString());
+                json = JSON.parse(fs.readFileSync(path.join(base, 'package.json')).toString()); // eslint-disable-line no-sync
                 break;
             }
             catch (e) {
@@ -57,13 +56,15 @@ class SwaggerDocument {
                     for (const v in param) {
                         const name = param[v].substr(1, param[v].length - 2);
                         let found = false;
-                        for (const k in doc.parameters) {
-                            if (doc.parameters[k].name === name) {
-                                found = true;
-                                break;
+                        if (meta) {
+                            for (const k in meta.parameters) {
+                                if (meta.parameters[k].name === name) {
+                                    found = true;
+                                    break;
+                                }
                             }
                         }
-                        if (found) {
+                        if (!found) {
                             doc.parameters.push({
                                 name: name,
                                 in: 'path',
@@ -72,7 +73,8 @@ class SwaggerDocument {
                             });
                         }
                     }
-                    this._document.paths[p][i] = util_1.default(doc, meta);
+                    console.log(doc, meta);
+                    this._document.paths[p][i] = util_1.default.merge(doc, meta);
                 }
             }
         }

@@ -4,23 +4,24 @@ import {Server, Controller, Get} from 'http.ts';
 import * as fs from 'fs';
 import * as path from 'path';
 import page from './page';
+import util from './util';
 import {METADATA} from './enum';
 
 @Controller()
 export default class Swagger extends Server.Controller {
 
-	static json = {}; // require('./swagger.json');
-	static indexPage = '';
+	static _data: Buffer = null;
+	static json: any = {};
+
+	static compressIndex: Buffer = null;
+	static indexPage: string = null;
 	static source = METADATA.SOURCE;
 
 	@Get()
 	index(): any {
-		if (!Swagger.indexPage) {
-			Swagger.indexPage = page('./swagger', {url: './swagger.json'});
-		}
-		return this.status(200).set({
-			'Content-Type': this.response.type('html')
-		}).send(Swagger.indexPage);
+		return util.cache(this, 'index', 'html', () => {
+			return page('./swagger', {url: './swagger.json'});
+		});
 	}
 
 	@Get('swagger/:file')
@@ -36,7 +37,9 @@ export default class Swagger extends Server.Controller {
 
 	@Get('swagger.json')
 	json(): any {
-		return this.status(200).json(Swagger.json);
+		return util.cache(this, 'swagger', 'json', () => {
+			return JSON.stringify(Swagger.json);
+		});
 	}
 
 }

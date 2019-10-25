@@ -45,11 +45,11 @@ exports.default = (root, config) => {
 						SwaggerUIBundle.plugins.DownloadUrl
 					],
 					layout: "StandaloneLayout"
-				})
-				window.ui = ui
+				});
+				window.ui = ui;
 			}
 		</script>
 	</body>
-	</html>`;
+	</html>`.replace(/(\t|\r|\n)+/g, '');
 };
 //# sourceMappingURL=page.js.map

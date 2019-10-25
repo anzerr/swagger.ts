@@ -1,5 +1,9 @@
 
 ### `Intro`
+![GitHub Actions status | linter](https://github.com/anzerr/swagger.ts/workflows/linter/badge.svg)
+![GitHub Actions status | publish](https://github.com/anzerr/swagger.ts/workflows/publish/badge.svg)
+![GitHub Actions status | test](https://github.com/anzerr/swagger.ts/workflows/test/badge.svg)
+
 Add swagger decorator to build the swagger.json in the controller.
 
 #### `Install`

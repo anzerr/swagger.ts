@@ -15,15 +15,13 @@ const http_ts_1 = require("http.ts");
 const fs = require("fs");
 const path = require("path");
 const page_1 = require("./page");
+const util_1 = require("./util");
 const enum_1 = require("./enum");
 let Swagger = Swagger_1 = class Swagger extends http_ts_1.Server.Controller {
     index() {
-        if (!Swagger_1.indexPage) {
-            Swagger_1.indexPage = page_1.default('./swagger', { url: './swagger.json' });
-        }
-        return this.status(200).set({
-            'Content-Type': this.response.type('html')
-        }).send(Swagger_1.indexPage);
+        return util_1.default.cache(this, 'index', 'html', () => {
+            return page_1.default('./swagger', { url: './swagger.json' });
+        });
     }
     css() {
         const file = this.param.file;
@@ -35,11 +33,15 @@ let Swagger = Swagger_1 = class Swagger extends http_ts_1.Server.Controller {
         return this.status(404).send('');
     }
     json() {
-        return this.status(200).json(Swagger_1.json);
+        return util_1.default.cache(this, 'swagger', 'json', () => {
+            return JSON.stringify(Swagger_1.json);
+        });
     }
 };
-Swagger.json = {}; // require('./swagger.json');
-Swagger.indexPage = '';
+Swagger._data = null;
+Swagger.json = {};
+Swagger.compressIndex = null;
+Swagger.indexPage = null;
 Swagger.source = enum_1.METADATA.SOURCE;
 __decorate([
     http_ts_1.Get(),

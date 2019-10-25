@@ -4,7 +4,7 @@ import * as path from 'path';
 import {Server} from 'http.ts';
 import Swagger from './controller';
 import {METADATA} from './enum';
-import merge from './util';
+import util from './util';
 
 export default class SwaggerDocument {
 
@@ -14,8 +14,7 @@ export default class SwaggerDocument {
 		let base = process.cwd(), json: any = {};
 		for (let i = 0; i < 5; i++) {
 			try {
-				// eslint-disable-line no-sync
-				json = JSON.parse(fs.readFileSync(path.join(base, 'package.json')).toString());
+				json = JSON.parse(fs.readFileSync(path.join(base, 'package.json')).toString()); // eslint-disable-line no-sync
 				break;
 			} catch (e) {
 				base = path.join(base, '..');
@@ -61,13 +60,15 @@ export default class SwaggerDocument {
 					for (const v in param) {
 						const name = param[v].substr(1, param[v].length - 2);
 						let found = false;
-						for (const k in doc.parameters) {
-							if (doc.parameters[k].name === name) {
-								found = true;
-								break;
+						if (meta) {
+							for (const k in meta.parameters) {
+								if (meta.parameters[k].name === name) {
+									found = true;
+									break;
+								}
 							}
 						}
-						if (found) {
+						if (!found) {
 							doc.parameters.push({
 								name: name,
 								in: 'path',
@@ -76,8 +77,8 @@ export default class SwaggerDocument {
 							});
 						}
 					}
-
-					this._document.paths[p][i] = merge(doc, meta);
+					console.log(doc, meta);
+					this._document.paths[p][i] = util.merge(doc, meta);
 				}
 			}
 		}
