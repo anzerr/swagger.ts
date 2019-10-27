@@ -1,6 +1,6 @@
 
 import * as fs from 'fs.promisify';
-import * as remove from 'fs.remove';
+import remove from 'fs.remove';
 import {spawn} from 'child_process';
 import * as path from 'path';
 
@@ -24,7 +24,11 @@ Promise.all([
 }).then(() => {
 	return fs.rename(path.join(__dirname, `../${key}/dist`), dir);
 }).then(() => {
-	remove(path.join(__dirname, `../${key}`));
+	return Promise.all([
+		remove(path.join(__dirname, `../${key}`)),
+		remove(path.join(dir, 'index.html')),
+		remove(path.join(dir, 'oauth2-redirect.html'))
+	])
 }).catch((e) => {
 	throw e;
 });

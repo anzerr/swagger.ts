@@ -53,14 +53,18 @@ class Test extends Server.Controller {
 	}
 
 	@Get(':id')
-	@Meta.responses(200, 'valid test')
+	@Meta.param.path('id', 'id of the given user', 'example_value_1')
+	@Meta.param.query('version', 'versionRef', 'example_value_2')
+	@Meta.responses(200, 'valid test', {
+		id: {type: 'string', description: 'cat', example: 'example_value_1'},
+		type: {type: 'string', description: 'dog', example: 'getUser version: "example_value_2"'}
+	})
 	@Meta.responses(405, 'invalid params')
 	@Meta.description('get users')
-	@Meta.param.query('version', 'versionRef')
 	getUser(): {id: string; type: string} {
 		return {
 			id: this.param.id,
-			type: 'getUser ' + this.query.version
+			type: `getUser version: "${this.query.version}"`
 		};
 	}
 
@@ -75,19 +79,21 @@ class Test extends Server.Controller {
 	}
 
 	@Post('import')
-	@Meta.param.formData('afile', 'file to upload', {type: 'file'})
-	@Meta.param.formData('bfile', 'file to upload', {type: 'file'})
+	@Meta.param.formData('afile', 'file to upload', {type: 'file', format: 'binary'})
+	@Meta.param.formData('bfile', 'file to upload', {type: 'file', format: 'binary'})
 	import(): any {
-		this.pipe(new FormPipe()).pipe(write()).once('finish', () => {
-			this.status(200).send('done');
-		});
+		return new Promise((resolve) => {
+			this.pipe(new FormPipe()).pipe(write()).once('finish', () => {
+				resolve(this.status(200).send('done'));
+			});
+		})
 	}
 
 }
 
 const document = new SwaggerDocument();
 
-const s = new Server(3000)
+const s = new Server(3123)
 	.withController([Swagger, Test]);
 
 s.on('error', (err) => {
@@ -96,5 +102,5 @@ s.on('error', (err) => {
 
 s.start().then(() => {
 	Swagger.json = document.withServer(s).toJson();
-	console.log('started');
+	console.log('started on port "3123"');
 }).catch(console.log);
