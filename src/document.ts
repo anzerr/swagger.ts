@@ -77,7 +77,6 @@ export default class SwaggerDocument {
 							});
 						}
 					}
-					console.log(doc, meta);
 					this._document.paths[p][i] = util.merge(doc, meta);
 				}
 			}

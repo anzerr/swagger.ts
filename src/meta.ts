@@ -1,5 +1,6 @@
 
 import {METADATA} from './enum';
+import is from 'type.util';
 import util from './util';
 
 export const add = (obj?: any) => {
@@ -13,7 +14,19 @@ export const add = (obj?: any) => {
 export const responses = (status: number, desc: string, content?: any): any => {
 	const out: any = {description: desc};
 	if (content) {
-		out.schema = content;
+		if (is.string(content)) {
+			out.schema = {
+				type: 'string',
+				properties: content
+			};
+		} else if (is.object(content)) {
+			out.schema = {
+				type: 'object',
+				properties: content
+			};
+		} else {
+			out.schema = content;
+		}
 	}
 	return add({responses: {[status]: out}});
 };

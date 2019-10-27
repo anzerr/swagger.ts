@@ -53,17 +53,14 @@ class Test extends Server.Controller {
 	}
 
 	@Get(':id')
+	@Meta.param.path('id', 'id of the given user', 'example_value_1')
+	@Meta.param.query('version', 'versionRef', 'example_value_2')
 	@Meta.responses(200, 'valid test', {
-		type: 'object',
-		properties: {
-			id: {type: 'string', description: 'cat', example: 'her'},
-			type: {type: 'string', description: 'dog', example: 'getUser version: "test"'}
-		}
+		id: {type: 'string', description: 'cat', example: 'example_value_1'},
+		type: {type: 'string', description: 'dog', example: 'getUser version: "example_value_2"'}
 	})
-	@Meta.param.path('id', 'id of the given user', 'cat')
 	@Meta.responses(405, 'invalid params')
 	@Meta.description('get users')
-	@Meta.param.query('version', 'versionRef', 'test')
 	getUser(): {id: string; type: string} {
 		return {
 			id: this.param.id,
@@ -85,9 +82,11 @@ class Test extends Server.Controller {
 	@Meta.param.formData('afile', 'file to upload', {type: 'file', format: 'binary'})
 	@Meta.param.formData('bfile', 'file to upload', {type: 'file', format: 'binary'})
 	import(): any {
-		this.pipe(new FormPipe()).pipe(write()).once('finish', () => {
-			this.status(200).send('done');
-		});
+		return new Promise((resolve) => {
+			this.pipe(new FormPipe()).pipe(write()).once('finish', () => {
+				resolve(this.status(200).send('done'));
+			});
+		})
 	}
 
 }

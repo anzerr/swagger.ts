@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const enum_1 = require("./enum");
+const type_util_1 = require("type.util");
 const util_1 = require("./util");
 exports.add = (obj) => {
     return (target, propertyKey, descriptor) => {
@@ -12,7 +13,21 @@ exports.add = (obj) => {
 exports.responses = (status, desc, content) => {
     const out = { description: desc };
     if (content) {
-        out.schema = content;
+        if (type_util_1.default.string(content)) {
+            out.schema = {
+                type: 'string',
+                properties: content
+            };
+        }
+        else if (type_util_1.default.object(content)) {
+            out.schema = {
+                type: 'object',
+                properties: content
+            };
+        }
+        else {
+            out.schema = content;
+        }
     }
     return exports.add({ responses: { [status]: out } });
 };

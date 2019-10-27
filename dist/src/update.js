@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs.promisify");
-const remove = require("fs.remove");
+const fs_remove_1 = require("fs.remove");
 const child_process_1 = require("child_process");
 const path = require("path");
 const run = (cmd, o) => {
@@ -14,14 +14,18 @@ const run = (cmd, o) => {
 };
 const dir = path.join(__dirname, '../swagger'), key = Math.random().toString(36).substr(2);
 Promise.all([
-    remove(dir),
-    remove(path.join(__dirname, `../${key}`))
+    fs_remove_1.default(dir),
+    fs_remove_1.default(path.join(__dirname, `../${key}`))
 ]).then(() => {
     return run(`git clone https://github.com/anzerr/swagger-ui.git ${key}`, { cwd: path.join(__dirname, '../') });
 }).then(() => {
     return fs.rename(path.join(__dirname, `../${key}/dist`), dir);
 }).then(() => {
-    remove(path.join(__dirname, `../${key}`));
+    return Promise.all([
+        fs_remove_1.default(path.join(__dirname, `../${key}`)),
+        fs_remove_1.default(path.join(dir, 'index.html')),
+        fs_remove_1.default(path.join(dir, 'oauth2-redirect.html'))
+    ]);
 }).catch((e) => {
     throw e;
 });
