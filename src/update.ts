@@ -28,7 +28,7 @@ Promise.all([
 		remove(path.join(__dirname, `../${key}`)),
 		remove(path.join(dir, 'index.html')),
 		remove(path.join(dir, 'oauth2-redirect.html'))
-	])
+	]);
 }).catch((e) => {
 	throw e;
 });

@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "dist/index.js",
 	"scripts": {
-		"linter": "eslint index.js",
+		"linter": "eslint index.ts src/**",
 		"build": "tsc -p ./ && cp -r ./swagger ./dist",
 		"clean": "rm -Rf ./dist",
 		"update": "ts-node src/update.ts",
