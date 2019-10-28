@@ -40,7 +40,7 @@ export const param = {
 			name: name,
 			description: desc,
 			in: 'query',
-			required: false,
+			required: true,
 			type: 'string',
 			schema: {
 				type: 'string',
@@ -54,7 +54,7 @@ export const param = {
 			name: name,
 			description: desc,
 			in: 'header',
-			required: false,
+			required: true,
 			type: 'string',
 			...(option || {})
 		}]
@@ -64,7 +64,7 @@ export const param = {
 			name: name,
 			description: desc,
 			in: 'formData',
-			required: false,
+			required: true,
 			type: 'string',
 			...(option || {})
 		}]
@@ -74,7 +74,7 @@ export const param = {
 			description: desc,
 			schema: schema,
 			in: 'body',
-			required: false,
+			required: true,
 			name: name || 'body',
 			...(option || {})
 		}]

@@ -36,19 +36,19 @@ exports.headers = (key, meta) => exports.add({ headers: { [key]: meta } });
 exports.tag = (t) => exports.add({ tag: Array.isArray(t) ? t : [t] });
 exports.param = {
     query: (name, desc, example, option) => exports.add({
-        parameters: [Object.assign({ name: name, description: desc, in: 'query', required: false, type: 'string', schema: {
+        parameters: [Object.assign({ name: name, description: desc, in: 'query', required: true, type: 'string', schema: {
                     type: 'string',
                     example: String(example || '')
                 } }, (option || {}))]
     }),
     header: (name, desc, option) => exports.add({
-        parameters: [Object.assign({ name: name, description: desc, in: 'header', required: false, type: 'string' }, (option || {}))]
+        parameters: [Object.assign({ name: name, description: desc, in: 'header', required: true, type: 'string' }, (option || {}))]
     }),
     formData: (name, desc, option) => exports.add({
-        parameters: [Object.assign({ name: name, description: desc, in: 'formData', required: false, type: 'string' }, (option || {}))]
+        parameters: [Object.assign({ name: name, description: desc, in: 'formData', required: true, type: 'string' }, (option || {}))]
     }),
     body: (schema, desc, name, option) => exports.add({
-        parameters: [Object.assign({ description: desc, schema: schema, in: 'body', required: false, name: name || 'body' }, (option || {}))]
+        parameters: [Object.assign({ description: desc, schema: schema, in: 'body', required: true, name: name || 'body' }, (option || {}))]
     }),
     path: (name, desc, example, option) => exports.add({
         parameters: [Object.assign({ name: name, description: desc, in: 'path', required: true, schema: {
