@@ -73,6 +73,12 @@ class Test extends Server.Controller {
 		this.status(200).json([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 	}
 
+	@Get(':id/meta')
+	getMeta(): any {
+		const meta = Reflect.getMetadata('swaggerMeta', this.meta.method);
+		this.status(200).json(meta);
+	}
+
 	@Get(':id/friends')
 	getFriends(): any {
 		this.status(200).send('3');
