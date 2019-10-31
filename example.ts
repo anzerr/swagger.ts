@@ -1,5 +1,4 @@
 
-import 'reflect-metadata';
 import {Server, Controller, Get, Post} from 'http.ts';
 import {FormPipe} from 'form.pipe';
 import * as fs from 'fs';
@@ -23,6 +22,16 @@ const write = (): Writable => {
 @Controller('user')
 class Test extends Server.Controller {
 
+	data: any;
+
+	constructor(option) {
+		super(option);
+		this.data = {
+			shard: {type: 'string'},
+			key: {type: 'string'}
+		};
+	}
+
 	@Get()
 	@Meta.param.query('name')
 	@Meta.tag('get')
@@ -40,6 +49,20 @@ class Test extends Server.Controller {
 		}
 	})
 	create(): Promise<{shard: string; key: string}[]> {
+		return this.data().then((res) => {
+			return res;
+		});
+	}
+
+	@Post('dynamic')
+	@Meta.param.body(function() {
+		return {
+			type: 'object',
+			required: ['shard', 'key'],
+			properties: this.data
+		};
+	})
+	dynamic(): Promise<{shard: string; key: string}[]> {
 		return this.data().then((res) => {
 			return res;
 		});
@@ -92,7 +115,7 @@ class Test extends Server.Controller {
 			this.pipe(new FormPipe()).pipe(write()).once('finish', () => {
 				resolve(this.status(200).send('done'));
 			});
-		})
+		});
 	}
 
 }

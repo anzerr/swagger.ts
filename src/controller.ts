@@ -1,5 +1,4 @@
 
-import 'reflect-metadata';
 import {Server, Controller, Get} from 'http.ts';
 import * as fs from 'fs.promisify';
 import * as path from 'path';

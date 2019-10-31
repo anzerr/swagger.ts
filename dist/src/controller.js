@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var Swagger_1;
 Object.defineProperty(exports, "__esModule", { value: true });
-require("reflect-metadata");
 const http_ts_1 = require("http.ts");
 const fs = require("fs.promisify");
 const path = require("path");

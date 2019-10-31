@@ -77,7 +77,7 @@ export default class SwaggerDocument {
 							});
 						}
 					}
-					this._document.paths[p][i] = util.merge(doc, meta);
+					this._document.paths[p][i] = util.run(map[i][x].instance, util.merge(doc, meta));
 					Reflect.defineMetadata(METADATA.SWAGGER, this._document.paths[p][i], map[i][x].instance[map[i][x].action]);
 				}
 			}

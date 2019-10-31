@@ -9,7 +9,7 @@
 		"clean": "rm -Rf ./dist",
 		"update": "ts-node src/update.ts",
 		"example": "ts-node example.ts",
-		"test": "echo 'done'"
+		"test": "echo 'todo'"
 	},
 	"keywords": [],
 	"author": "anzerr",

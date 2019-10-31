@@ -28,6 +28,21 @@ class Util {
         }
         return empty ? b || a : o;
     }
+    run(caller, obj) {
+        if (type_util_1.default.object(obj)) {
+            for (const i in obj) {
+                if (type_util_1.default.object(obj[i])) {
+                    obj[i] = this.run(caller, obj[i]);
+                }
+                else if (type_util_1.default.function(obj[i])) {
+                    obj[i] = (function () {
+                        return obj[i].apply(caller);
+                    }).apply(caller);
+                }
+            }
+        }
+        return obj;
+    }
     compress(data) {
         return new Promise((resolve, reject) => {
             zlib.deflate(data, (err, buffer) => {

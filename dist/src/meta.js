@@ -38,7 +38,7 @@ exports.param = {
     query: (name, desc, example, option) => exports.add({
         parameters: [Object.assign({ name: name, description: desc, in: 'query', required: true, type: 'string', schema: {
                     type: 'string',
-                    example: String(example || '')
+                    example: example
                 } }, (option || {}))]
     }),
     header: (name, desc, option) => exports.add({
@@ -53,7 +53,7 @@ exports.param = {
     path: (name, desc, example, option) => exports.add({
         parameters: [Object.assign({ name: name, description: desc, in: 'path', required: true, schema: {
                     type: 'string',
-                    example: String(example || '')
+                    example: example
                 } }, (option || {}))]
     }),
 };

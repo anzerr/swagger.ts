@@ -32,6 +32,21 @@ class Util {
 		return empty ? b || a : o;
 	}
 
+	run(caller: any, obj: any): any {
+		if (is.object(obj)) {
+			for (const i in obj) {
+				if (is.object(obj[i])) {
+					obj[i] = this.run(caller, obj[i]);
+				} else if (is.function(obj[i])) {
+					obj[i] = (function() {
+						return obj[i].apply(caller);
+					}).apply(caller);
+				}
+			}
+		}
+		return obj;
+	}
+
 	compress(data: Buffer | string): Promise<Buffer> {
 		return new Promise((resolve, reject) => {
 			zlib.deflate(data, (err, buffer) => {

@@ -73,7 +73,7 @@ class SwaggerDocument {
                             });
                         }
                     }
-                    this._document.paths[p][i] = util_1.default.merge(doc, meta);
+                    this._document.paths[p][i] = util_1.default.run(map[i][x].instance, util_1.default.merge(doc, meta));
                     Reflect.defineMetadata(enum_1.METADATA.SWAGGER, this._document.paths[p][i], map[i][x].instance[map[i][x].action]);
                 }
             }

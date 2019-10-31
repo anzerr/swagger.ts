@@ -11,7 +11,7 @@ export const add = (obj?: any) => {
 	};
 };
 
-export const responses = (status: number, desc: string, content?: any): any => {
+export const responses = (status: number, desc: (() => string) | string, content?: any): any => {
 	const out: any = {description: desc};
 	if (content) {
 		if (is.string(content)) {
@@ -30,12 +30,12 @@ export const responses = (status: number, desc: string, content?: any): any => {
 	}
 	return add({responses: {[status]: out}});
 };
-export const description = (desc: string): any => add({description: desc});
+export const description = (desc: (() => string) | string): any => add({description: desc});
 export const headers = (key: string, meta: any): any => add({headers: {[key]: meta}});
-export const tag = (t: string[] | string): any => add({tag: Array.isArray(t) ? t : [t]});
+export const tag = (t: (() => string[]) | string[] | string): any => add({tag: Array.isArray(t) ? t : [t]});
 
 export const param = {
-	query: (name: string, desc?: string, example?: string | number, option?: any) => add({
+	query: (name: string, desc?: (() => string) | string, example?: (() => string) | string, option?: {[key: string]: any}) => add({
 		parameters: [{
 			name: name,
 			description: desc,
@@ -44,12 +44,12 @@ export const param = {
 			type: 'string',
 			schema: {
 				type: 'string',
-				example: String(example || '')
+				example: example
 			},
 			...(option || {})
 		}]
 	}),
-	header: (name: string, desc?: string, option?: any) => add({
+	header: (name: string, desc?: (() => string) | string, option?: any) => add({
 		parameters: [{
 			name: name,
 			description: desc,
@@ -59,7 +59,7 @@ export const param = {
 			...(option || {})
 		}]
 	}),
-	formData: (name: string, desc?: string, option?: any) => add({
+	formData: (name: string, desc?: (() => string) | string, option?: {[key: string]: any}) => add({
 		parameters: [{
 			name: name,
 			description: desc,
@@ -79,7 +79,7 @@ export const param = {
 			...(option || {})
 		}]
 	}),
-	path: (name: string, desc?: string, example?: string | number, option?: any) => add({
+	path: (name: string, desc?: (() => string) | string, example?: (() => string) | string, option?: {[key: string]: any}) => add({
 		parameters: [{
 			name: name,
 			description: desc,
@@ -87,7 +87,7 @@ export const param = {
 			required: true,
 			schema: {
 				type: 'string',
-				example: String(example || '')
+				example: example
 			},
 			...(option || {})
 		}]

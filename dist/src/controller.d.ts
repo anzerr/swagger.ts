@@ -1,5 +1,4 @@
 /// <reference types="node" />
-import 'reflect-metadata';
 import { Server } from 'http.ts';
 export default class Swagger extends Server.Controller {
     static _data: Buffer;
