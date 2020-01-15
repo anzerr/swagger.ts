@@ -25,9 +25,14 @@ let Swagger = Swagger_1 = class Swagger extends http_ts_1.Server.Controller {
     css() {
         const file = this.param.file;
         if (Swagger_1.source[file]) {
-            return this.status(200).set({
-                'Content-Type': this.response.type(path.extname(file))
-            }).pipe(fs.createReadStream(path.join(__dirname, `../swagger/${file}`)));
+            const p = path.join(__dirname, `../swagger/${file}`);
+            return fs.access(p).then(() => {
+                return this.status(200).set({
+                    'Content-Type': this.response.type(path.extname(file))
+                }).pipe(fs.createReadStream(p));
+            }).catch(() => {
+                return this.status(404).send('');
+            });
         }
         return this.status(404).send('');
     }
