@@ -34,7 +34,7 @@ export default class Swagger extends Server.Controller {
 				}).pipe(fs.createReadStream(p));
 			}).catch(() => {
 				return this.status(404).send('');
-			})
+			});
 		}
 		return this.status(404).send('');
 	}
