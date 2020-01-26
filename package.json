@@ -1,8 +1,26 @@
 {
 	"name": "swagger.ts",
 	"version": "1.0.17",
-	"description": "",
+	"description": "Add swagger decorator to http.ts",
+	"keywords": [
+		"nodejs",
+		"swagger",
+		"ts",
+		"typescript",
+		"util"
+	],
+	"homepage": "https://github.com/anzerr/swagger.ts#readme",
+	"bugs": {
+		"url": "https://github.com/anzerr/swagger.ts/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:anzerr/swagger.ts.git"
+	},
+	"license": "MIT",
+	"author": "anzerr",
 	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
 	"scripts": {
 		"linter": "eslint index.ts src/**",
 		"build": "tsc -p ./ && cp -r ./swagger ./dist",
@@ -11,8 +29,14 @@
 		"example": "ts-node example.ts",
 		"test": "echo 'todo'"
 	},
-	"author": "anzerr",
-	"license": "MIT",
+	"eslintConfig": {
+		"extends": "eslint-config-typescript"
+	},
+	"dependencies": {
+		"http.ts": "git+https://git@github.com/anzerr/http.ts.git",
+		"reflect-metadata": "^0.1.13",
+		"type.util": "git+https://github.com/anzerr/type.util.git"
+	},
 	"devDependencies": {
 		"@types/node": "^12.7.2",
 		"fs.remove": "git+https://git@github.com/anzerr/fs.remove.git",
@@ -22,24 +46,7 @@
 		"ts-node": "^8.3.0",
 		"typescript": "^3.5.3"
 	},
-	"dependencies": {
-		"http.ts": "git+https://git@github.com/anzerr/http.ts.git",
-		"reflect-metadata": "^0.1.13",
-		"type.util": "git+https://github.com/anzerr/type.util.git"
-	},
-	"eslintConfig": {
-		"extends": "eslint-config-typescript"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git@github.com:anzerr/swagger.ts.git"
-	},
 	"engines": {
 		"node": ">= 0.10.0"
-	},
-	"types": "dist/index.d.ts",
-	"bugs": {
-		"url": "https://github.com/anzerr/swagger.ts/issues"
-	},
-	"homepage": "https://github.com/anzerr/swagger.ts#readme"
+	}
 }

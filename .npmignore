@@ -3,7 +3,11 @@ node_modules/*
 .tag*
 .github
 LICENSE
-README.md
-example.ts
-tsconfig.json
-src
+.git/
+.idea/
+./test.ts
+./tsconfig.json
+/test.ts
+/tsconfig.json
+./Build/*
+/src/*
