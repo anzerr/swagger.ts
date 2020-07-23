@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.param = exports.tag = exports.headers = exports.description = exports.responses = exports.add = void 0;
 const enum_1 = require("./enum");
 const type_util_1 = require("type.util");
 const util_1 = require("./util");
