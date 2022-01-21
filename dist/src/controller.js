@@ -19,7 +19,7 @@ const enum_1 = require("./enum");
 let Swagger = Swagger_1 = class Swagger extends http_ts_1.Server.Controller {
     index() {
         return util_1.default.cache(this, 'index', 'html', () => {
-            return page_1.default('./swagger', { url: './swagger.json' });
+            return (0, page_1.default)('./swagger', { url: './swagger.json' });
         });
     }
     css() {
@@ -48,25 +48,25 @@ Swagger.compressIndex = null;
 Swagger.indexPage = null;
 Swagger.source = enum_1.METADATA.SOURCE;
 __decorate([
-    http_ts_1.Get(),
+    (0, http_ts_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Object)
 ], Swagger.prototype, "index", null);
 __decorate([
-    http_ts_1.Get('swagger/:file'),
+    (0, http_ts_1.Get)('swagger/:file'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Object)
 ], Swagger.prototype, "css", null);
 __decorate([
-    http_ts_1.Get('swagger.json'),
+    (0, http_ts_1.Get)('swagger.json'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Object)
 ], Swagger.prototype, "json", null);
 Swagger = Swagger_1 = __decorate([
-    http_ts_1.Controller()
+    (0, http_ts_1.Controller)()
 ], Swagger);
 exports.default = Swagger;
 //# sourceMappingURL=controller.js.map

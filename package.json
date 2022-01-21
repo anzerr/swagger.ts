@@ -22,15 +22,11 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"linter": "eslint index.ts src/**",
 		"build": "tsc -p ./ && cp -r ./swagger ./dist",
 		"clean": "rm -Rf ./dist",
 		"update": "ts-node src/update.ts",
 		"example": "ts-node example.ts",
 		"test": "echo 'todo'"
-	},
-	"eslintConfig": {
-		"extends": "eslint-config-typescript"
 	},
 	"dependencies": {
 		"http.ts": "git+https://git@github.com/anzerr/http.ts.git",
@@ -41,10 +37,9 @@
 		"@types/node": "^12.7.2",
 		"fs.remove": "git+https://git@github.com/anzerr/fs.remove.git",
 		"fs.promisify": "git+https://git@github.com/anzerr/fs.promisify.git",
-		"eslint-config-typescript": "git+https://git@github.com/anzerr/eslint-config-typescript.git",
 		"form.pipe": "git+https://git@github.com/anzerr/form.pipe.git",
-		"ts-node": "^8.3.0",
-		"typescript": "^3.5.3"
+		"ts-node": "^10.4.0",
+		"typescript": "^4.5.5"
 	},
 	"engines": {
 		"node": ">= 0.10.0"
